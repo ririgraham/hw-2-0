@@ -23,7 +23,7 @@ def mask_account_card(data: str) -> str:
         masked_account = get_mask_account(int(account_number))
         return f"{account_type} {masked_account}"
 
-    return "Incorrect input"
+    return "Incorrect Input"
 
 
 def get_date(date_str: str) -> str:
