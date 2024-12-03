@@ -2,7 +2,7 @@ import pytest
 from src.masks import get_mask_account
 from src.widget import mask_account_card, get_date
 from src.utils import get_mask_card_number
-
+from src.processing import filter_by_state, sort_by_date
 
 #TESTS FOR MASKS.PY
 @pytest.mark.parametrize(
@@ -93,3 +93,36 @@ def test_get_date_fixture(date_test_valid):
     """Fixture testing date data"""
     for date_str, expected_result in date_test_valid:
         assert get_date(date_str) == expected_result
+
+
+#TESTS FOR PROCESSING.PY
+@pytest.mark.parametrize('state, expected', [
+    ('EXECUTED', [{"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+        {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"}]),
+    ('CANCELED', [{"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+        {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"}]),
+])
+
+def test_filter_by_state(sample_data, state, expected):
+    '''testing state filtering'''
+    result = filter_by_state(sample_data, state)
+    assert result == expected
+
+@pytest.mark.parametrize('descending, expected', [
+    (True, [
+        {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
+        {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'},
+        {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
+        {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'},
+    ]),
+    (False, [
+        {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'},
+        {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
+        {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'},
+        {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
+    ]),
+])
+def test_sort_by_date(sample_data, descending, expected):
+    '''testing date descendence'''
+    result = sort_by_date(sample_data, descending=descending)
+    assert result == expected

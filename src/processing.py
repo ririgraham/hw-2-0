@@ -20,14 +20,14 @@ if __name__ == '__main__':
         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
     ]
 
-    """Executing with the default status"""
-    print(filter_by_state(data))
-
-    """Executing with CANCELED status"""
-    print(filter_by_state(data, "CANCELED"))
-
-    """Executing in decsending order (by default)"""
-    print(sort_by_date(data))
-
-    """Executing in ascending order"""
-    print(sort_by_date(data, descending=False))
+    # """Executing with the default status"""
+    # print(filter_by_state(data))
+    #
+    # """Executing with CANCELED status"""
+    # print(filter_by_state(data, "CANCELED"))
+    #
+    # """Executing in decsending order (by default)"""
+    # print(sort_by_date(data))
+    #
+    # """Executing in ascending order"""
+    # print(sort_by_date(data, descending=False))
